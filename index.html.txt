@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modelo 3D em Realidade Aumentada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Importa a biblioteca A-Frame -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!-- Importa a biblioteca AR.js para A-Frame -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <!-- 
+      A cena de A-Frame.
+      'vr-mode-ui="enabled: false"' desabilita o botão de VR.
+      'embedded' é importante para rodar em uma página web.
+      'arjs' inicializa o sistema de RA. Adicionamos sourceType e detectionMode para sermos mais explícitos.
+    -->
+    <a-scene 
+        vr-mode-ui="enabled: false" 
+        embedded 
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix;">
+        
+        <!-- 
+          A seção de assets é usada para pré-carregar recursos, como modelos 3D.
+          Isso melhora a performance.
+        -->
+        <a-assets>
+            <!-- 
+              IMPORTANTE: O atributo 'crossorigin="anonymous"' é crucial para carregar modelos de outros domínios (como o GitHub).
+              Substituí o placeholder por um modelo de exemplo que funciona. 
+              Troque esta URL pela URL "raw" do seu próprio modelo .glb no GitHub.
+            -->
+            <a-asset-item 
+                id="cubo-esfera" 
+                src="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb"
+                crossorigin="anonymous">
+            </a-asset-item>
+        </a-assets>
+
+        <!-- 
+          O a-marker define qual marcador do mundo real será rastreado.
+          'preset="hiro"' usa o marcador Hiro, que é um padrão do AR.js.
+        -->
+        <a-marker preset="hiro">
+            <!-- 
+              Esta entidade será exibida quando o marcador for detectado.
+              'gltf-model="#cubo-esfera"' carrega o modelo 3D pré-carregado nos assets.
+              Ajustei a escala e a rotação para o modelo de exemplo (pato). 
+              Você pode precisar ajustar esses valores para o seu modelo.
+            -->
+            <a-entity 
+                id="cubo-esfera-na-cena" 
+                gltf-model="#cubo-esfera"
+                scale="0.5 0.5 0.5"
+                position="0 0.5 0"
+                rotation="-90 0 0">
+            </a-entity>
+        </a-marker>
+
+        <!-- A câmera padrão do AR.js -->
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>
